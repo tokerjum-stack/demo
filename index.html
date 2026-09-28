@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Демо-сайты для малого бизнеса — примеры работ</title>
-<meta name="description" content="Живые демо-сайты для кафе, салонов, автосервисов и других сфер малого бизнеса. Посмотрите, как может выглядеть сайт вашей компании.">
-<meta name="robots" content="noindex, follow">
+<meta name="description" content="Четыре живых демо-сайта: салон красоты, кофейня, восточная кухня, автосервис. Посмотрите, как может выглядеть сайт вашей компании — открывается с телефона.">
+<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#2c3a33">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Демо-сайты для малого бизнеса">
-<meta property="og:description" content="Живые примеры сайтов: кафе, салон, автосервис. Открываются с телефона.">
+<meta property="og:description" content="Четыре живых примера сайтов: салон красоты, кофейня, восточная кухня, автосервис. Открываются с телефона.">
 <meta property="og:locale" content="ru_RU">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%237fb69a'/><text x='32' y='45' font-family='Georgia' font-size='34' font-weight='700' fill='%23fff' text-anchor='middle'>Э</text></svg>">
 <style>
@@ -34,16 +34,15 @@
   .eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--sage-deep);margin:0 0 14px}
   h1{font-family:var(--serif);font-size:clamp(30px,5vw,50px);line-height:1.14;margin:0 0 18px;letter-spacing:-.02em}
   h1 em{font-style:italic;color:var(--sage-deep)}
-  .lead{font-size:clamp(16px,1.5vw,19px);color:var(--soft);max-width:60ch;margin:0}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;padding:24px 0 70px}
+  .lead{font-size:clamp(16px,1.5vw,19px);color:var(--soft);max-width:62ch;margin:0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;padding:24px 0 20px}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .22s ease,box-shadow .22s ease}
   .card:hover{transform:translateY(-4px);box-shadow:0 22px 50px -28px rgba(34,32,29,.5)}
-  .card__top{aspect-ratio:16/9;display:grid;place-items:center;font-family:var(--serif);font-size:30px;color:rgba(255,255,255,.92);letter-spacing:.02em}
+  .card__top{aspect-ratio:16/9;display:grid;place-items:center;font-family:var(--serif);font-size:30px;color:rgba(255,255,255,.94);letter-spacing:.02em;text-align:center;padding:0 16px}
+  .card__top--salon{background:linear-gradient(135deg,#c08a72,#4a3330)}
   .card__top--kafe{background:linear-gradient(135deg,#c1743c,#3a2a1f)}
   .card__top--vostok{background:linear-gradient(135deg,#1c6e63,#123a36)}
-  .card__top--salon{background:linear-gradient(135deg,#c08a72,#4a3330)}
-  .card__top--auto{background:linear-gradient(135deg,#e2622a,#20272e)}
-  .card__top--soon{background:linear-gradient(135deg,#cfc7bb,#a49a8c);font-size:15px;font-family:var(--sans);font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+  .card__top--avto{background:linear-gradient(135deg,#e2622a,#20272e)}
   .card__body{padding:24px;display:flex;flex-direction:column;flex:1}
   .card h2{font-family:var(--serif);font-size:22px;margin:0 0 8px}
   .card p{margin:0 0 18px;color:var(--soft);font-size:14.5px;flex:1}
@@ -51,16 +50,13 @@
   .tag{font-size:12px;padding:5px 11px;border-radius:999px;background:#f1ece2;color:var(--soft)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 24px;border-radius:999px;background:var(--sage);color:#fff;font-weight:600;font-size:15px;transition:background .18s ease,transform .18s ease}
   .btn:hover{background:var(--sage-deep);transform:translateY(-2px)}
-  .btn--ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
-  .btn--ghost:hover{background:#f4efe6;border-color:var(--sage);color:var(--sage-deep)}
-  .card.is-soon{opacity:.72;pointer-events:none}
-  .note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:14px;padding:24px 26px;margin-bottom:60px}
+  .note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:14px;padding:24px 26px;margin:24px 0 60px}
   .note h3{font-family:var(--serif);font-size:19px;margin:0 0 10px}
   .note p{margin:0 0 10px;color:var(--soft);font-size:14.5px}
   .note p:last-child{margin-bottom:0}
   footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--soft);font-size:14px}
   footer strong{color:var(--ink)}
-  @media (max-width:640px){.hero{padding:44px 0 26px}.grid{padding-bottom:50px}}
+  @media (max-width:640px){.hero{padding:44px 0 26px}.grid{padding-bottom:12px}.card__top{font-size:24px}}
 </style>
 </head>
 <body>
@@ -79,8 +75,9 @@
   <div class="wrap">
     <p class="eyebrow">Живые примеры</p>
     <h1>Так может выглядеть <em>сайт вашего дела</em></h1>
-    <p class="lead">Ниже — настоящие работающие сайты, а не картинки. Откройте с телефона: всё адаптировано,
-    форма заявки работает, страницы быстро грузятся. Любой из них переделывается под вашу сферу, название и услуги.</p>
+    <p class="lead">Четыре настоящих работающих сайта, а не картинки. Откройте с телефона: всё адаптировано,
+    меню и цены листаются, форма заявки работает, страницы грузятся быстро. Любой из них переделывается
+    под вашу сферу, название и услуги — за пару дней.</p>
   </div>
 </section>
 
@@ -88,12 +85,12 @@
   <div class="grid">
 
     <article class="card">
-      <div class="card__top card__top--vostok">Амирхан</div>
+      <div class="card__top card__top--salon">Пудра</div>
       <div class="card__body">
-        <h2>Восточная кухня</h2>
-        <p>Манты, плов в казане, шашлык, чай в чайнике. Меню по разделам, бронь стола, банкеты и заказы на вынос.</p>
-        <div class="tagline"><span class="tag">Меню и цены</span><span class="tag">Бронь стола</span><span class="tag">Банкеты</span><span class="tag">Отзывы</span></div>
-        <a class="btn" href="vostok/">Открыть демо →</a>
+        <h2>Салон красоты</h2>
+        <p>Маникюр, педикюр, брови, ресницы, стрижки и косметология. Прайс по разделам, мастера, работы, запись онлайн.</p>
+        <div class="tagline"><span class="tag">Прайс</span><span class="tag">Мастера</span><span class="tag">Запись</span><span class="tag">Работы</span></div>
+        <a class="btn" href="salon/">Открыть демо →</a>
       </div>
     </article>
 
@@ -107,23 +104,23 @@
       </div>
     </article>
 
-    <article class="card is-soon">
-      <div class="card__top card__top--soon">Готовим</div>
+    <article class="card">
+      <div class="card__top card__top--vostok">Амирхан</div>
       <div class="card__body">
-        <h2>Салон красоты</h2>
-        <p>Услуги с ценами, мастера, примеры работ, запись онлайн. Тот же конструктор, другая палитра и содержание.</p>
-        <div class="tagline"><span class="tag">Услуги</span><span class="tag">Мастера</span><span class="tag">Запись</span></div>
-        <a class="btn btn--ghost" href="#">Скоро</a>
+        <h2>Восточная кухня</h2>
+        <p>Манты, плов в казане, шашлык, чай в чайнике. Меню по разделам, бронь стола, банкеты и заказы на вынос.</p>
+        <div class="tagline"><span class="tag">Меню и цены</span><span class="tag">Бронь стола</span><span class="tag">Банкеты</span><span class="tag">Отзывы</span></div>
+        <a class="btn" href="vostok/">Открыть демо →</a>
       </div>
     </article>
 
-    <article class="card is-soon">
-      <div class="card__top card__top--soon">Готовим</div>
+    <article class="card">
+      <div class="card__top card__top--avto">Гараж 12</div>
       <div class="card__body">
         <h2>Автосервис</h2>
-        <p>Прайс на работы, сроки, гарантия, запись на диагностику. Строгий стиль, акцент на доверие и понятные цены.</p>
-        <div class="tagline"><span class="tag">Прайс</span><span class="tag">Запись</span><span class="tag">Гарантия</span></div>
-        <a class="btn btn--ghost" href="#">Скоро</a>
+        <p>Диагностика, ТО, ремонт двигателя и подвески, шиномонтаж. Прайс на работы, гарантия, запись с указанием марки машины.</p>
+        <div class="tagline"><span class="tag">Прайс</span><span class="tag">Запись</span><span class="tag">Гарантия</span><span class="tag">Отзывы</span></div>
+        <a class="btn" href="avto/">Открыть демо →</a>
       </div>
     </article>
 
@@ -134,6 +131,7 @@
     <p><strong>Сайт под ваш бизнес:</strong> структура, тексты, подбор и обработка фотографий, мобильная версия.</p>
     <p><strong>Настройка под Яндекс:</strong> заголовки и описания для поиска, карточка в Яндекс Бизнесе, Яндекс Метрика, подключение к Яндекс Вебмастеру.</p>
     <p><strong>Форма заявки</strong>, которая присылает вам имя и телефон клиента — в WhatsApp или на почту.</p>
+    <p><strong>Домен и почта:</strong> подберём имя, зарегистрируем на вас, настроим почту на ваш адрес.</p>
     <p><strong>После запуска:</strong> покажу, как самому менять цены и тексты, и останусь на связи.</p>
   </div>
 </main>
