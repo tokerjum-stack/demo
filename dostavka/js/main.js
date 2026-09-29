@@ -218,9 +218,9 @@
 
     var render = function () {
       var n = count();
-      if (fab) {
-        fab.classList.toggle('is-on', n > 0);
-        if (fabCount) fabCount.textContent = n;
+      if (fabCount) {
+        fabCount.textContent = n;
+        fabCount.classList.toggle('is-on', n > 0);
       }
       if (cartEmpty) cartEmpty.style.display = cartItems.length ? 'none' : '';
       if (cartFoot) cartFoot.hidden = cartItems.length === 0;
