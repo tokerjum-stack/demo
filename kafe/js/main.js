@@ -139,6 +139,7 @@
       var name = ($('#f-name') || {}).value || '';
       var phone = ($('#f-phone') || {}).value || '';
       var when = ($('#f-when') || {}).value || '';
+      var service = ($('#f-service') || {}).value || '';
       var comment = ($('#f-comment') || {}).value || '';
       var consent = form.querySelector('input[name="consent"]');
 
@@ -152,6 +153,7 @@
         'Телефон: ' + phone.trim()
       ];
       if (when) lines.push(CFG.whenLabel ? CFG.whenLabel + ': ' + when : 'Когда: ' + when);
+      if (service) lines.push('Услуга: ' + service);
       if (comment.trim()) lines.push('Комментарий: ' + comment.trim());
       var text = lines.join('\n');
 
@@ -174,7 +176,182 @@
     });
   }
 
-  /* ---------- 8. Плавный переход по якорям с учётом шапки ---------- */
+  /* ---------- 8. Корзина и заказ в WhatsApp ---------- */
+  var cartPanel = $('#cart-panel');
+  if (cartPanel) {
+    var cartItems = [];
+    var cartList = $('#cart-items');
+    var cartEmpty = $('#cart-empty');
+    var cartFoot = $('#cart-foot');
+    var cartSum = $('#cart-sum');
+    var fab = $('#cart-fab');
+    var fabCount = $('#cart-count');
+    var backdrop = $('#cart-backdrop');
+    var errEl = $('#cart-err');
+    var addrWrap = $('#cart-addr-wrap');
+    var typeSel = $('#cart-type');
+    var storeKey = 'cart:' + location.pathname;
+
+    var toNum = function (s) {
+      var m = String(s).replace(/[^\d]/g, '');
+      return m ? parseInt(m, 10) : 0;
+    };
+    var money = function (n) {
+      return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0') + ' ₽';
+    };
+    var save = function () {
+      try { localStorage.setItem(storeKey, JSON.stringify(cartItems)); } catch (e) {}
+    };
+    var load = function () {
+      try {
+        var raw = localStorage.getItem(storeKey);
+        if (raw) cartItems = JSON.parse(raw) || [];
+      } catch (e) { cartItems = []; }
+      if (!Array.isArray(cartItems)) cartItems = [];
+    };
+    var total = function () {
+      return cartItems.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+    };
+    var count = function () {
+      return cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
+    };
+
+    var render = function () {
+      var n = count();
+      if (fabCount) {
+        fabCount.textContent = n;
+        fabCount.classList.toggle('is-on', n > 0);
+      }
+      if (cartEmpty) cartEmpty.style.display = cartItems.length ? 'none' : '';
+      if (cartFoot) cartFoot.hidden = cartItems.length === 0;
+      if (cartSum) cartSum.textContent = money(total());
+      if (!cartList) return;
+
+      cartList.innerHTML = '';
+      cartItems.forEach(function (it, idx) {
+        var row = document.createElement('div');
+        row.className = 'cart-item';
+        row.innerHTML =
+          '<span class="cart-item__name"></span>' +
+          '<span class="cart-item__price">' + money(it.price * it.qty) + '</span>' +
+          '<span class="cart-qty">' +
+            '<button type="button" data-dec aria-label="Убрать одну">−</button>' +
+            '<span>' + it.qty + '</span>' +
+            '<button type="button" data-inc aria-label="Добавить одну">+</button>' +
+          '</span>' +
+          '<button type="button" class="cart-remove" data-del>убрать</button>';
+        row.querySelector('.cart-item__name').textContent = it.name;
+        row.querySelector('[data-inc]').addEventListener('click', function () { it.qty++; save(); render(); });
+        row.querySelector('[data-dec]').addEventListener('click', function () {
+          it.qty--;
+          if (it.qty < 1) cartItems.splice(idx, 1);
+          save(); render();
+        });
+        row.querySelector('[data-del]').addEventListener('click', function () {
+          cartItems.splice(idx, 1); save(); render();
+        });
+        cartList.appendChild(row);
+      });
+    };
+
+    var openCart = function () {
+      cartPanel.classList.add('is-on');
+      cartPanel.setAttribute('aria-hidden', 'false');
+      if (backdrop) backdrop.classList.add('is-on');
+      document.body.style.overflow = 'hidden';
+    };
+    var closeCart = function () {
+      cartPanel.classList.remove('is-on');
+      cartPanel.setAttribute('aria-hidden', 'true');
+      if (backdrop) backdrop.classList.remove('is-on');
+      document.body.style.overflow = '';
+    };
+
+    $$('[data-add]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var name = btn.getAttribute('data-name') || '';
+        var price = toNum(btn.getAttribute('data-price'));
+        if (!name || !price) return;
+        var found = null;
+        cartItems.forEach(function (i) { if (i.name === name) found = i; });
+        if (found) found.qty++;
+        else cartItems.push({ name: name, price: price, qty: 1 });
+        save(); render();
+        btn.classList.add('is-added');
+        setTimeout(function () { btn.classList.remove('is-added'); }, 700);
+      });
+    });
+
+    if (fab) fab.addEventListener('click', openCart);
+    if (backdrop) backdrop.addEventListener('click', closeCart);
+    var closeBtn = $('#cart-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeCart);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCart(); });
+
+    if (typeSel && addrWrap) {
+      var syncAddr = function () {
+        var v = (typeSel.value || '').toLowerCase();
+        addrWrap.hidden = v.indexOf('доставк') === -1;
+      };
+      typeSel.addEventListener('change', syncAddr);
+      syncAddr();
+    }
+
+    var cartForm = $('#cart-form');
+    if (cartForm) {
+      cartForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var nm = ($('#cart-name') || {}).value || '';
+        var ph = ($('#cart-phone') || {}).value || '';
+        var tp = ($('#cart-type') || {}).value || '';
+        var ad = ($('#cart-addr') || {}).value || '';
+        var cm = ($('#cart-comment') || {}).value || '';
+
+        if (nm.trim().length < 2 || ph.replace(/\D/g, '').length < 11) {
+          if (errEl) errEl.classList.add('is-on');
+          return;
+        }
+        if (errEl) errEl.classList.remove('is-on');
+
+        var lines = ['Здравствуйте! Заказ с сайта' + (CFG.name ? ' «' + CFG.name + '»' : '') + ':', ''];
+        cartItems.forEach(function (i) {
+          lines.push('• ' + i.name + ' — ' + i.qty + ' шт × ' + money(i.price) + ' = ' + money(i.price * i.qty));
+        });
+        lines.push('');
+        lines.push('Итого: ' + money(total()));
+        lines.push('');
+        lines.push('Имя: ' + nm.trim());
+        lines.push('Телефон: ' + ph.trim());
+        if (tp) lines.push('Способ: ' + tp);
+        if (ad.trim() && addrWrap && !addrWrap.hidden) lines.push('Адрес: ' + ad.trim());
+        if (cm.trim()) lines.push('Комментарий: ' + cm.trim());
+
+        var text = lines.join('\n');
+
+        if (CFG.whatsapp) {
+          window.open('https://wa.me/' + CFG.whatsapp + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+          cartItems = [];
+          save();
+          render();
+          cartForm.reset();
+          if (typeSel && addrWrap) addrWrap.hidden = (typeSel.value || '').toLowerCase().indexOf('доставк') === -1;
+          closeCart();
+        } else if (CFG.email) {
+          window.location.href = 'mailto:' + CFG.email +
+            '?subject=' + encodeURIComponent('Заказ с сайта') +
+            '&body=' + encodeURIComponent(text);
+        } else if (errEl) {
+          errEl.textContent = 'Заказ некуда отправить — позвоните нам: ' + (CFG.phone || '');
+          errEl.classList.add('is-on');
+        }
+      });
+    }
+
+    load();
+    render();
+  }
+
+  /* ---------- 9. Плавный переход по якорям с учётом шапки ---------- */
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var id = a.getAttribute('href');

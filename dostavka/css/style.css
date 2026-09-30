@@ -153,10 +153,14 @@ ul { margin: 0; padding: 0; list-style: none; }
     position: fixed; inset: 0 0 0 auto; width: min(320px, 86vw);
     background: var(--surface); flex-direction: column; align-items: flex-start;
     padding: 96px 28px 28px; gap: 4px;
-    transform: translateX(100%); transition: transform .3s ease; z-index: 70;
+    transform: translateX(100%); transition: transform .3s ease, visibility .3s ease;
+    z-index: 70;
+    /* без visibility: hidden закрытое меню торчит за экраном и создаёт
+       горизонтальную прокрутку на телефоне */
+    visibility: hidden;
     box-shadow: -20px 0 60px -30px rgba(0,0,0,.5); overflow-y: auto;
   }
-  .nav.is-open { transform: translateX(0); }
+  .nav.is-open { transform: translateX(0); visibility: visible; }
   .nav a { font-size: 18px; padding: 13px 0; width: 100%; border-bottom: 1px solid var(--line); }
   .nav a::after { display: none; }
   .burger { display: grid; z-index: 80; }
@@ -569,10 +573,11 @@ ul { margin: 0; padding: 0; list-style: none; }
   position: fixed; top: 0; right: 0; bottom: 0; z-index: 96;
   width: min(440px, 92vw); background: var(--bg);
   display: flex; flex-direction: column;
-  transform: translateX(102%); transition: transform .32s cubic-bezier(.4,0,.2,1);
+  transform: translateX(102%); transition: transform .32s cubic-bezier(.4,0,.2,1), visibility .32s;
+  visibility: hidden;
   box-shadow: -20px 0 60px -30px rgba(0,0,0,.6);
 }
-.cart-panel.is-on { transform: none; }
+.cart-panel.is-on { transform: none; visibility: visible; }
 .cart-panel__head {
   padding: 22px 24px; border-bottom: 1px solid var(--line);
   display: flex; align-items: center; justify-content: space-between; gap: 14px;
@@ -637,6 +642,15 @@ ul { margin: 0; padding: 0; list-style: none; }
   font-size: 12px; font-weight: 700; display: none; place-items: center;
 }
 .head-cart__count.is-on { display: grid; }
+
+/* на телефоне пальцем попасть в маленькую кнопку трудно —
+   увеличиваем до комфортных 44 пикселей */
+@media (max-width: 760px) {
+  .add-btn { width: 44px; height: 44px; font-size: 24px; margin-left: 8px; }
+  .cart-qty button { width: 38px; height: 38px; font-size: 19px; }
+  .cart-remove { font-size: 13.5px; padding: 8px 0; }
+  .cart-close { width: 44px; height: 44px; font-size: 22px; }
+}
 
 
 /* theme: kafe */
